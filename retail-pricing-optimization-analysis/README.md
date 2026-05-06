@@ -1,170 +1,90 @@
 # Retail Pricing Optimization Analysis
 
-## Phase 1: Excel Analysis
+An end-to-end retail data analysis project built using the Kaggle Superstore dataset.
+
+This project analyzes how discounting impacts profitability and identifies the pricing threshold where business transactions become loss-making.
+
+The project is being developed in multiple phases to simulate a real-world analytics workflow.
 
 ---
 
-# About This Project
-
-This project is based on the Kaggle Superstore US dataset.
-
-The main goal of this project is to study how discount affects profit and find the discount level after which the company starts facing losses.
-
-This is a step-by-step end-to-end data analysis project that I am building using:
+# Tools Used
 
 * Microsoft Excel
-* SQL
-* Python
+* MySQL
 * Power BI
 
-This repository currently contains **Phase 1**, which focuses on Excel analysis.
+---
+
+# Project Objective
+
+The goal of this project is to answer the following business questions:
+
+* At what discount level does profit become negative?
+* Which regions are most sensitive to discounting?
+* How large is the impact of risky discounting?
+* Should pricing strategy vary across regions?
 
 ---
 
 # Dataset Preparation
 
-The original dataset was available as one flat sheet.
+The original flat dataset was manually transformed into relational tables:
 
-To make the project more realistic and prepare it for future SQL analysis, I manually separated it into 4 sheets:
+### Customer Table
 
-### Customer Sheet
+Customer-level information
 
-Contains customer-related information
+### Orders Table
 
-### Orders Sheet
+Order and regional details
 
-Contains order details
+### Product Table
 
-### Product Sheet
+Product and category details
 
-Contains product details
+### Transactions Table
 
-### Transaction Sheet
+Sales, quantity, discount, and profit
 
-Contains transaction-level data such as:
-
-* Sales
-* Profit
-* Quantity
-* Discount
-
-This helped create a relational structure similar to real business databases.
+This structure was created to support advanced SQL analysis.
 
 ---
 
-# Data Cleaning
-
-Before starting analysis, I performed data cleaning.
-
-### Fixed Date Errors
-
-Initially, the Order Date and Ship Date columns were showing incorrect values because of formatting issues.
-
-These dates were corrected.
+# Project Phases
 
 ---
 
-### Removed Duplicate Records
+# Phase 1: Excel Analysis
 
-Duplicate rows were removed from the separated sheets.
+## Work Completed
 
----
-
-### Validated Data
-
-Checked the dataset for consistency before analysis.
-
----
-
-# New Columns Created
-
-To perform analysis, I created new calculated columns in the Transaction sheet.
+* Data cleaning
+* Date correction
+* Duplicate removal
+* Discount band creation
+* Profit margin calculation
+* Pivot table analysis
 
 ---
 
-## 1. Discount Band
+## Key Findings
 
-Discount values were grouped into:
+### Discount Profitability Analysis
 
-* 0%
-* 1–10%
-* 11–20%
-* 21–30%
-* 31–50%
-* 50%+
+Profit decreases as discount increases.
 
-This helped compare profit across different discount levels.
+The key profitability break point was identified in the:
+
+**21–30% discount range**
 
 ---
 
-## 2. Profit Margin
+### Category Analysis
 
-Calculated using:
+All categories became loss-making at higher discount levels.
 
-Profit ÷ Sales
-
-This helped understand profitability for each transaction.
-
----
-
-# Data Enrichment
-
-The Category column was not available in the Transaction sheet.
-
-To solve this, I used Excel lookup functions to bring Category data from the Product sheet into the Transaction sheet.
-
-This allowed category-wise analysis.
-
----
-
-# Pivot Table Analysis
-
-I created 3 pivot tables to analyze discount impact.
-
----
-
-# Pivot 1: Discount Band vs Average Profit
-
-## Purpose
-
-To check how profit changes as discount increases.
-
----
-
-## Findings
-
-* 1–10% discount generated the highest average profit
-* Profit started decreasing after 10%
-* Profit became negative in the 21–30% range
-* Higher discounts caused larger losses
-
----
-
-## Insight
-
-Small discounts help increase profit.
-
-High discounts reduce profitability.
-
----
-
-## Recommendation
-
-Standard discounts should stay below 20%.
-
----
-
-# Pivot 2: Category vs Discount Band
-
-## Purpose
-
-To check whether discount affects some categories more than others.
-
----
-
-## Findings
-
-All categories became loss-making after 21–30% discount:
+Categories analyzed:
 
 * Furniture
 * Office Supplies
@@ -172,127 +92,262 @@ All categories became loss-making after 21–30% discount:
 
 ---
 
-## Insight
+### Regional Analysis
 
-The issue is not limited to one category.
-
-The overall discount strategy is affecting the whole business.
+Most regions showed declining profitability as discounts increased.
 
 ---
 
-## Recommendation
+## Phase 1 Recommendation
 
-The company should apply strict discount control across all categories.
+Maintain standard discounts below:
 
----
-
-# Pivot 3: Region vs Discount Band
-
-## Purpose
-
-To check whether discount impact changes across regions.
+**20%**
 
 ---
 
-## Findings
+# Phase 2: SQL Validation
 
-Most regions showed lower profit as discount increased.
-
-Very high discounts caused losses in nearly all regions.
+Phase 2 validated Excel findings using structured SQL analysis.
 
 ---
 
-## Insight
+## SQL Concepts Applied
 
-Aggressive discounting is risky across all markets.
-
----
-
-## Recommendation
-
-Region-level monitoring should be done before offering heavy discounts.
-
----
-
-# Main Finding
-
-The most important finding from this phase:
-
-## Profit becomes negative after 20% discount
-
-The profitability break point was identified in the **21–30% discount range**.
-
-This means discounts above this level start damaging profit.
+* CASE WHEN
+* INNER JOIN
+* GROUP BY
+* Aggregate Functions
+* CTE
+* Window Functions
+* Ranking Functions
 
 ---
 
-# Final Recommendations
-
-Based on all Excel analysis:
-
-### 1. Keep standard discounts below 20%
-
-This is the safest profitable range.
+# SQL Findings
 
 ---
 
-### 2. Discounts above 20% should require approval
+## 1. Profitability Threshold Confirmed
 
-This helps avoid unnecessary losses.
+SQL fully validated the Excel finding.
 
----
+Profitability becomes negative after:
 
-### 3. Discounts above 30% should only be used for:
+**21–30% discount**
 
-* Stock clearance
-* Seasonal sales
-* Special campaigns
+This confirms the company’s critical pricing threshold.
 
 ---
 
-### 4. Monitor regional performance before giving large discounts
+## 2. Regional Discount Sensitivity
 
-Different markets should be tracked carefully.
+Most regions became loss-making after the 21–30% range.
 
----
+However:
 
-# Final Conclusion
+**North Asia became loss-making earlier at 11–20%**
 
-From this Excel analysis, I found that discount has a strong impact on profit.
-
-Moderate discounts improve profitability.
-
-High discounts reduce profit and create losses.
-
-The analysis clearly shows that the company should avoid giving discounts above 20%.
+This shows stronger discount sensitivity.
 
 ---
 
-# Tools Used in Phase 1
+## 3. Regional Profitability Ranking
 
-* Microsoft Excel
-* Pivot Tables
-* Lookup Functions
-* Calculated Columns
+SQL ranking identified:
+
+### Lowest Profitability Regions
+
+1. Southeast Asia
+2. EMEA
+3. Africa
+
+---
+
+### Highest Profitability Region
+
+North Asia
+
+This reveals that North Asia performs strongly overall but reacts negatively to discount increases.
+
+---
+
+## 4. Risky Transaction Analysis
+
+A CTE-based risk analysis identified:
+
+**11,328 risky transactions**
+
+Average loss per risky transaction:
+
+**-71.92**
+
+This indicates large-scale discount inefficiency.
+
+---
+
+## 5. Category Validation
+
+Category total profit:
+
+Furniture: 285204.72
+Office Supplies: 518473.83
+Technology: 663778.73
+
+All categories remain profitable overall.
+
+This confirms that:
+
+The issue is discount strategy, not weak product categories.
+
+---
+
+## 6. Monthly Profitability Trend
+
+Monthly profit fluctuated across the year.
+
+### Highest Average Profit
+
+Month 2
+
+### Lowest Average Profit
+
+Month 9
+
+This suggests possible seasonal pricing effects.
+
+---
+
+# Phase 3: Power BI Dashboard Development
+
+Phase 3 focused on transforming analytical findings into interactive pricing intelligence dashboards.
+
+---
+
+## Dashboard Features Created
+
+* KPI Cards
+* Profit by Discount Band Visualization
+* Regional Profitability Dashboard
+* Risk Analysis Dashboard
+* Interactive Filters
+
+---
+
+## Dashboard Findings
+
+### Executive Overview
+
+Dashboard visuals confirmed that profitability becomes negative after the:
+
+**21–30% discount range**
+
+---
+
+### Regional Analysis
+
+Power BI confirmed:
+
+**North Asia shows the earliest profitability decline**
+
+This supports the SQL regional sensitivity findings.
+
+---
+
+### Risk Analysis
+
+Dashboard monitoring confirmed:
+
+**11,328 high-risk transactions**
+
+Average loss:
+
+**-71.92**
+
+This highlights systematic pricing inefficiency.
+
+---
+
+## Phase 3 Insight
+
+Power BI transformed the analytical findings into interactive business dashboards for pricing decision support.
+
+---
+
+# Main Project Insight
+
+The strongest validated business insight across all three phases:
+
+## Discounts above 20% significantly increase profitability risk
+
+This is the primary pricing threshold identified in the project.
+
+---
+
+# Final Business Recommendations
+
+---
+
+## 1. Company-Wide Discount Policy
+
+Keep standard discounts below:
+
+**20%**
+
+---
+
+## 2. North Asia Pricing Policy
+
+Recommended maximum discount:
+
+**10%**
+
+---
+
+## 3. Region-Specific Discount Strategy
+
+Avoid applying one universal discount strategy.
+
+Different regions show different sensitivity levels.
+
+---
+
+## 4. High-Risk Transaction Monitoring
+
+Review all transactions above the profitability threshold.
+
+---
+
+## 5. Seasonal Pricing Review
+
+Monitor monthly profit trends before applying promotional pricing.
 
 ---
 
 # Current Status
 
 Phase 1 Completed
+Phase 2 Completed
+Phase 3 Completed
 
 ---
 
-# Next Phase
+# Repository Structure
 
-In Phase 2, I will validate these findings using SQL.
+retail-pricing-optimization-analysis/
 
-Planned SQL work includes:
+phase1_excel_analysis/
 
-* CASE WHEN
-* Joins
-* CTE
-* Window Functions
-* Profitability Ranking
+phase2_sql_analysis/
 
-This will help confirm the Excel findings with advanced query analysis.
+phase3_powerbi_dashboard/
+
+README.md
+
+---
+
+# Dataset Source
+
+Kaggle Superstore Dataset
+
+Used for educational and portfolio analysis purposes.
